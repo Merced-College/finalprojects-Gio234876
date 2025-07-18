@@ -92,8 +92,7 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
     }
 
 
-
-   /**
+/**
      * Sorts the player's hand by color only using insertion sort.
      */
     public void sortHandByColor() {
