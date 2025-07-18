@@ -14,12 +14,10 @@ The goal is to make a terminal based on the phycial card game Uno where the user
 sort yoru deck of cards, shuffle before every new game starts and assign a point system within to see who is winning. 
 
 
-
-
  /**
      * Sorts the player's hand by card number using selection sort.
      * Data Structure: ArrayList used to store the player's hand.
-     * Sorting Algorithm: Selection Sort (see loop below)
+     * Sorting Algorithm: Selection Sort
      */
     public void sortHandByNumber() {
         // --- Selection Sort Algorithm ---
@@ -38,10 +36,13 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
             }
         }
     }
+
+
+
 /**
      * Sorts the player's hand by color, then by number using merge sort.
      * Data Structure: ArrayList used to store the player's hand.
-     * Sorting Algorithm: Merge Sort (see method below)
+     * Sorting Algorithm: Merge Sort
      */
     public void sortHandByColorThenNumber() {
         if (hand.size() <= 1) return;
@@ -88,6 +89,9 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
             hand.set(left + k, temp.get(k));
         }
     }
+
+
+
 /**
      * Sorts the player's hand by color only using insertion sort.
      */
@@ -102,3 +106,5 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
             hand.set(j + 1, key);
         }
     }
+
+Implemented color & number seperate as once gave the numbers and color some issues as where they shoudl go position wise so the additional helped sort the players hands into the correct place.
