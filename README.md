@@ -12,3 +12,17 @@ Final programming project- Uno game
 
 The goal is to make a terminal based on the phycial card game Uno where the user can draw cards, place cards, 
 sort yoru deck of cards, shuffle before every new game starts and assign a point system within to see who is winning. 
+
+
+public static void sortCardsByColor(List<UnoColorSelector.Card> cards) {
+        // --- Insertion Sort Algorithm ---
+        for (int i = 1; i < cards.size(); i++) {
+            UnoColorSelector.Card key = cards.get(i);
+            int j = i - 1;
+            while (j >= 0 && cards.get(j).getColor().ordinal() > key.getColor().ordinal()) {
+                cards.set(j + 1, cards.get(j));
+                j--;
+            }
+            cards.set(j + 1, key);
+        }
+    }
