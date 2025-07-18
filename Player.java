@@ -35,7 +35,7 @@ public class Player {
         for (int i = 0; i < hand.size() - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < hand.size(); j++) {
-                if (hand.get(j).getNumber() < hand.get(minIndex).getNumber()) {
+                if (hand.get(j).number() < hand.get(minIndex).number()) {
                     minIndex = j;
                 }
             }
@@ -76,8 +76,8 @@ public class Player {
             UnoColorSelector.Card cardI = hand.get(i);
             UnoColorSelector.Card cardJ = hand.get(j);
             // Compare by color first, then by number if colors are equal
-            if (cardI.getColor().ordinal() < cardJ.getColor().ordinal() ||
-                (cardI.getColor() == cardJ.getColor() && cardI.getNumber() <= cardJ.getNumber())) {
+            if (cardI.color().ordinal() < cardJ.color().ordinal() ||
+                (cardI.color() == cardJ.color() && cardI.number() <= cardJ.number())) {
                 temp.add(cardI);
                 i++;
             } else {
@@ -106,7 +106,7 @@ public class Player {
         for (int i = 1; i < hand.size(); i++) {
             UnoColorSelector.Card key = hand.get(i);
             int j = i - 1;
-            while (j >= 0 && hand.get(j).getColor().ordinal() > key.getColor().ordinal()) {
+            while (j >= 0 && hand.get(j).color().ordinal() > key.color().ordinal()) {
                 hand.set(j + 1, hand.get(j));
                 j--;
             }

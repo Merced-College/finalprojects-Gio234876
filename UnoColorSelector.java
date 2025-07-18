@@ -3,23 +3,7 @@ public class UnoColorSelector {
         RED, GREEN, BLUE, YELLOW
     }
 
-    public static class Card {
-        private final Color color;
-        private final int number;
-
-        public Card(Color color, int number) {
-            this.color = color;
-            this.number = number;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public int getNumber() {
-            return number;
-        }
-
+    public record Card(Color color, int number) {
         @Override
         public String toString() {
             return color + " " + number;

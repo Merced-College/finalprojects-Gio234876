@@ -1,5 +1,8 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,44 +11,46 @@ public class Main {
 
         // Create a deck
         Deck deck = new Deck();
+        Stack<UnoColorSelector.Card> discardPile = new Stack<>();
 
         // Draw and display the initial card
         UnoColorSelector.Card initialCard = deck.drawCard();
-        System.out.println("Initial card on the table: " + initialCard.getColor() + " " + initialCard.getNumber());
+        System.out.println("Initial card on the table: " + initialCard.color() + " " + initialCard.number());
         System.out.println();
+        discardPile.push(initialCard); // Add initial card to discard pile
 
         // Deal cards to players and show their hands
         int cardsPerPlayer = 5;
         Player.dealCardsToPlayers(players, deck, cardsPerPlayer);
 
         Scanner scanner = new Scanner(System.in);
-        UnoColorSelector.Color currentColor = initialCard.getColor();
-        int currentNumber = initialCard.getNumber();
+        UnoColorSelector.Color currentColor = initialCard.color();
+        int currentNumber = initialCard.number();
         boolean gameWon = false;
 
+        // After setting up players:
+        Queue<Player> playerQueue = new LinkedList<>(players);
+
         while (!gameWon) {
-            for (Player player : players) {
-                System.out.println(player.getName() + "'s turn!");
-                player.showHand();
-                System.out.println("Current card: " + currentColor + " " + currentNumber);
+            Player player = playerQueue.poll(); // Get the next player
 
-                // Check if player has a matching color or number card
-                boolean hasMatch = false;
-                for (int i = 0; i < player.getHand().size(); i++) {
-                    UnoColorSelector.Card card = player.getHand().get(i);
-                    if (card.getColor() == currentColor || card.getNumber() == currentNumber) {
-                        hasMatch = true;
-                        break;
-                    }
-                }
+            System.out.println(player.getName() + "'s turn!");
+            player.showHand();
+            System.out.println("Current card: " + currentColor + " " + currentNumber);
 
-                if (hasMatch) {
-                    System.out.print("You have a matching card. Enter the number (1-" + player.getHand().size() + ") of the card to place down, or 'd' to draw: ");
-                } else {
-                    System.out.print("No matching card. Enter 'd' to draw a card: ");
+            // Check if player has a matching color or number card
+            boolean hasMatch = false;
+            for (int i = 0; i < player.getHand().size(); i++) {
+                UnoColorSelector.Card card = player.getHand().get(i);
+                if (card.color() == currentColor || card.number() == currentNumber) {
+                    hasMatch = true;
+                    break;
                 }
+            }
+
+            if (hasMatch) {
+                System.out.print("You have a matching card. Enter the number (1-" + player.getHand().size() + ") of the card to place down, or 'd' to draw: ");
                 String input = scanner.nextLine().trim();
-
                 if (input.equalsIgnoreCase("d")) {
                     UnoColorSelector.Card drawn = deck.drawCard();
                     if (drawn != null) {
@@ -54,34 +59,48 @@ public class Main {
                     } else {
                         System.out.println("Deck is empty!");
                     }
-                } else if (hasMatch) {
+                } else {
                     try {
                         int cardIndex = Integer.parseInt(input) - 1;
                         UnoColorSelector.Card chosen = player.getHand().get(cardIndex);
-                        if (chosen.getColor() == currentColor || chosen.getNumber() == currentNumber) {
+                        if (chosen.color() == currentColor || chosen.number() == currentNumber) {
                             player.getHand().remove(cardIndex);
+                            discardPile.push(chosen);
                             System.out.println("You placed down: " + chosen);
-                            currentColor = chosen.getColor(); // update current color
-                            currentNumber = chosen.getNumber(); // update current number
+                            currentColor = chosen.color();
+                            currentNumber = chosen.number();
                         } else {
                             System.out.println("That card does not match the color or number. Turn skipped.");
                         }
                     } catch (Exception e) {
                         System.out.println("Invalid input. Turn skipped.");
                     }
+                }
+            } else {
+                // Only accept 'd' for draw
+                String input;
+                do {
+                    System.out.print("No matching card. Enter 'd' to draw a card: ");
+                    input = scanner.nextLine().trim();
+                } while (!input.equalsIgnoreCase("d"));
+                UnoColorSelector.Card drawn = deck.drawCard();
+                if (drawn != null) {
+                    player.addCard(drawn);
+                    System.out.println("You drew: " + drawn);
                 } else {
-                    System.out.println("Invalid input. Turn skipped.");
+                    System.out.println("Deck is empty!");
                 }
+            }
 
-                System.out.println("Cards left in your hand: " + player.getHand().size());
-                System.out.println();
+            System.out.println("Cards left in your hand: " + player.getHand().size());
+            System.out.println();
 
-                // Check for win condition
-                if (player.getHand().isEmpty()) {
-                    System.out.println(player.getName() + " has won the game!");
-                    gameWon = true;
-                    break;
-                }
+            // Check for win condition
+            if (player.getHand().isEmpty()) {
+                System.out.println(player.getName() + " has won the game!");
+                gameWon = true;
+            } else {
+                playerQueue.offer(player); // Put player back at the end of the queue if not won
             }
         }
     }
