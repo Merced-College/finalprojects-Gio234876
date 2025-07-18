@@ -8,7 +8,9 @@ public class Deck {
     private Stack<UnoColorSelector.Card> cards;
     private static final int TOTAL_CARDS = 40; // 4 colors x 10 numbers
 
+    //uses a stack for the deck to allow easy drawing of cards
     public Deck() {
+
         cards = new Stack<>();
         List<UnoColorSelector.Card> tempList = new ArrayList<>();
         // Create one card for each color and number (0-9)

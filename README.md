@@ -14,15 +14,19 @@ The goal is to make a terminal based on the phycial card game Uno where the user
 sort yoru deck of cards, shuffle before every new game starts and assign a point system within to see who is winning. 
 
 
-public static void sortCardsByColor(List<UnoColorSelector.Card> cards) {
-        // --- Insertion Sort Algorithm ---
-        for (int i = 1; i < cards.size(); i++) {
-            UnoColorSelector.Card key = cards.get(i);
+
+  /**
+     * Sorts the player's hand by card number using insertion sort.
+     */
+    public void sortHandByNumber() {
+        // Insertion Sort Algorithm
+        for (int i = 1; i < hand.size(); i++) {
+            UnoColorSelector.Card key = hand.get(i);
             int j = i - 1;
-            while (j >= 0 && cards.get(j).getColor().ordinal() > key.getColor().ordinal()) {
-                cards.set(j + 1, cards.get(j));
+            while (j >= 0 && hand.get(j).getNumber() > key.getNumber()) {
+                hand.set(j + 1, hand.get(j));
                 j--;
             }
-            cards.set(j + 1, key);
+            hand.set(j + 1, key);
         }
     }
