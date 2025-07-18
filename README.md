@@ -15,6 +15,7 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
 
 
 
+
  /**
      * Sorts the player's hand by card number using selection sort.
      * Data Structure: ArrayList used to store the player's hand.
@@ -37,9 +38,6 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
             }
         }
     }
-
-
-
 /**
      * Sorts the player's hand by color, then by number using merge sort.
      * Data Structure: ArrayList used to store the player's hand.
@@ -90,8 +88,6 @@ sort yoru deck of cards, shuffle before every new game starts and assign a point
             hand.set(left + k, temp.get(k));
         }
     }
-
-
 /**
      * Sorts the player's hand by color only using insertion sort.
      */
