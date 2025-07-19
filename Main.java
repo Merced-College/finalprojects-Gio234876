@@ -22,49 +22,50 @@ public class Main {
         // Deal cards to players and show their hands
         int cardsPerPlayer = 5;
         Player.dealCardsToPlayers(players, deck, cardsPerPlayer);
-
-        Scanner scanner = new Scanner(System.in);
-        UnoColorSelector.Color currentColor = initialCard.color();
+ 
+        Scanner scanner = new Scanner(System.in); //takes input from the user
+        UnoColorSelector.Color currentColor = initialCard.color(); // Current color of the card on the table
         int currentNumber = initialCard.number();
         boolean gameWon = false;
 
         // After setting up players:
         Queue<Player> playerQueue = new LinkedList<>(players);
 
-        while (!gameWon) {
-            Player player = playerQueue.poll(); // Get the next player
+        while (!gameWon) { //Winning logic 
+            Player player = playerQueue.poll(); // Get the next player 
 
-            System.out.println(player.getName() + "'s turn!");
-            player.showHand();
+            System.out.println(player.getName() + "'s turn!"); 
+            player.showHand(); // Show the player's hand
             System.out.println("Current card: " + currentColor + " " + currentNumber);
 
             // Check if player has a matching color or number card
             boolean hasMatch = false;
             for (int i = 0; i < player.getHand().size(); i++) {
                 UnoColorSelector.Card card = player.getHand().get(i);
-                if (card.color() == currentColor || card.number() == currentNumber) {
+                if (card.color() == currentColor || card.number() == currentNumber) { // Check for color or number match
                     hasMatch = true;
                     break;
                 }
             }
 
+            // If player has a matching card, allow them to play or draw
             if (hasMatch) {
                 System.out.print("You have a matching card. Enter the number (1-" + player.getHand().size() + ") of the card to place down, or 'd' to draw: ");
                 String input = scanner.nextLine().trim();
                 if (input.equalsIgnoreCase("d")) {
                     UnoColorSelector.Card drawn = deck.drawCard();
-                    if (drawn != null) {
-                        player.addCard(drawn);
+                    if (drawn != null) { //draw from the player if they don't have a matching card
+                        player.addCard(drawn); 
                         System.out.println("You drew: " + drawn);
-                    } else {
-                        System.out.println("Deck is empty!");
+                    } else { 
+                        System.out.println("Deck is empty!"); 
                     }
                 } else {
                     try {
-                        int cardIndex = Integer.parseInt(input) - 1;
-                        UnoColorSelector.Card chosen = player.getHand().get(cardIndex);
+                        int cardIndex = Integer.parseInt(input) - 1; 
+                        UnoColorSelector.Card chosen = player.getHand().get(cardIndex); 
                         if (chosen.number() == 10) { // Cat card logic
-                            System.out.println("You played the CAT CARD! You may swap a card with any player.");
+                            System.out.println("You played the CAT CARD! You may collect a card.");
                             // The player does not lose their turn, so you may allow them to play again or just continue
                             // The cat card can be placed on any card, so no need to check color/number match
                             player.getHand().remove(cardIndex);
@@ -74,10 +75,10 @@ public class Main {
                             currentColor = chosen.color();
                             currentNumber = chosen.number();
                         } else if (chosen.color() == currentColor || chosen.number() == currentNumber) {
-                            player.getHand().remove(cardIndex);
+                            player.getHand().remove(cardIndex); // Remove the card from player's hand
                             discardPile.push(chosen);
                             System.out.println("You placed down: " + chosen);
-                            currentColor = chosen.color();
+                            currentColor = chosen.color(); // Update current color
                             currentNumber = chosen.number();
                         } else {
                             System.out.println("That card does not match the color or number. Turn skipped.");
@@ -92,11 +93,11 @@ public class Main {
                 do {
                     System.out.print("No matching card. Enter 'd' to draw a card: ");
                     input = scanner.nextLine().trim();
-                } while (!input.equalsIgnoreCase("d"));
+                } while (!input.equalsIgnoreCase("d")); // Keep asking until 'd' is entered
                 UnoColorSelector.Card drawn = deck.drawCard();
                 if (drawn != null) {
                     player.addCard(drawn);
-                    System.out.println("You drew: " + drawn);
+                    System.out.println("You drew: " + drawn); // Draw a card from the deck
                 } else {
                     System.out.println("Deck is empty!");
                 }
