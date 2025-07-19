@@ -9,14 +9,13 @@ public class Deck {
     private LinkedList<UnoColorSelector.Card> cards; // Data Structure: LinkedList for efficient add/remove from both ends
     private static final int TOTAL_CARDS = 40; // 4 colors x 10 numbers
 
-    //uses a stack for the deck to allow easy drawing of cards
     public Deck() {
 
         cards = new LinkedList<>();
         List<UnoColorSelector.Card> tempList = new ArrayList<>();
         // Create one card for each color and number (0-9)
         for (UnoColorSelector.Color color : UnoColorSelector.Color.values()) {
-            for (int number = 0; number <= 9; number++) {
+            for (int number = 0; number <= 10; number++) { // Now includes 10 (cat card)
                 tempList.add(new UnoColorSelector.Card(color, number));
             }
         }

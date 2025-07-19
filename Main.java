@@ -63,7 +63,17 @@ public class Main {
                     try {
                         int cardIndex = Integer.parseInt(input) - 1;
                         UnoColorSelector.Card chosen = player.getHand().get(cardIndex);
-                        if (chosen.color() == currentColor || chosen.number() == currentNumber) {
+                        if (chosen.number() == 10) { // Cat card logic
+                            System.out.println("You played the CAT CARD! You may swap a card with any player.");
+                            // The player does not lose their turn, so you may allow them to play again or just continue
+                            // The cat card can be placed on any card, so no need to check color/number match
+                            player.getHand().remove(cardIndex);
+                            discardPile.push(chosen);
+                            // Optionally: let the player swap a card here
+                            // Continue the turn or move to next player as per your rules
+                            currentColor = chosen.color();
+                            currentNumber = chosen.number();
+                        } else if (chosen.color() == currentColor || chosen.number() == currentNumber) {
                             player.getHand().remove(cardIndex);
                             discardPile.push(chosen);
                             System.out.println("You placed down: " + chosen);
